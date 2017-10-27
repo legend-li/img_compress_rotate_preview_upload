@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	<title>html5+exif.js+canvas实现手机端照片上传预览、压缩、旋转功能</title>
+    <style>
+        *{margin: 0;padding: 0;}
+        li{list-style-type: none;}
+        a,input{outline: none;-webkit-tap-highlight-color:rgba(0,0,0,0);}
+        #choose{display: none;}
+        canvas{width: 100%;border: 1px solid #000000;}
+        #addImg,#submit{display: block;margin: 10px;height: 60px;text-align: center;line-height: 60px;border: 1px solid;border-radius: 5px;cursor: pointer;}
+        .touch{background-color: #ddd;}
+        .img_list,.imgCompress_list{margin: 10px 5px;}
+        .img_list li,.imgCompress_list li{position: relative;display: inline-block;width: 100px;height: 100px;margin: 5px 5px 20px 5px;border: 1px solid rgb(100,149,198);background: #fff no-repeat center;background-size: cover;}
+        .progress{position: absolute;width: 100%;height: 20px;line-height: 20px;bottom: 0;left: 0;background-color:rgba(100,149,198,.5);}
+        .progress span{display: block;width: 0;height: 100%;background-color:rgb(100,149,198);text-align: center;color: #FFF;font-size: 13px;}
+        .size{position: absolute;width: 100%;height: 15px;line-height: 15px;bottom: -18px;text-align: center;font-size: 13px;color: #666;}
+        .tips{display: block;text-align:center;font-size: 13px;margin: 10px;color: #999;}
+        
+        .imgBigShow{display: none;width: 400px;height: 400px;position: fixed;z-index: 1;top: 50px;border: 1px solid rgb(100,149,198);background: #fff no-repeat center;background-size: cover;}
+    </style>
+</head>
+<body>
+	<form id="fileinfo" name="fileinfo" method="post" enctype="multipart/form-data">
+	</form>
+	<input type="file" id="choose" capture="camera" accept="image/*" multiple>
+    		
+    <p>压缩前：</p>
+    <ul class="img_list">
+        <!--<li style="background-image:url('/public/upload/upload.jpeg')">-->
+            <!--<div class="progress"><span style="width: 100%">上传成功</span></div>-->
+            <!--<div class="size">100KB</div>-->
+        <!--</li>-->
+    </ul>
+
+    <a id="addImg">添加图片</a>
+    <span class="tips">只允许上传jpg、png</span>
+
+    <p>压缩后：</p>
+    <ul class="imgCompress_list">
+    	<!--<li style="background-image:url('/public/upload/upload.jpeg')">-->
+            <!--<div class="progress"><span style="width: 100%">上传成功</span></div>-->
+            <!--<div class="size">100KB</div>-->
+        <!--</li>-->
+    </ul>
+
+    <div id="submit">提交表单</div>
+
+    <div class="imgBigShow">
+    </div>
+
+    <script src="src/jquery-2.1.1.min.js"></script>
+
+    <!-- compressImg.js是压缩图片插件，exif.js是矫正图片方向的插件，compressImg.js依赖于exif.js，所以compressImg.js要在exif.js之前引入 -->
+    <script src="src/compressImg.js"></script>
+    <script src="src/exif.js"></script>
+    <!-- 截止 -->
+    
+    <!-- imgCompressRotate.js是调用compressImg.js进行图片压缩，纠正的文件 -->
+    <script src="src/imgCompressRotate.js"></script>
+</body>
+</html>
