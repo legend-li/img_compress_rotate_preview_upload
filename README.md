@@ -9,6 +9,7 @@
 
 # 项目中主要插件是：
 ## src/compressImg.js 和 src/exif.js
+
  这两个插件是用来实现图片压缩和图片方向纠正的。
  
  compressImg.js依赖于exif.js，所以在使用的时候，必须先引入exif.js，然后再引入compressImg.js
