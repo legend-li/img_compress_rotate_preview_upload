@@ -59,7 +59,7 @@
         console.log('blobFile:', blobFile)
     	var xhr = new XMLHttpRequest();
     	
-		//链接你自己上传图片接口即可，这里的接口地址，是我写的示例，不可真是使用，讲解意义更大
+        //链接你自己上传图片接口即可，这里的接口地址，是我写的示例，不可真是使用，讲解意义更大
         xhr.open('post', 'http://xxx/welcome/index/');
 
         xhr.onreadystatechange = function () {
