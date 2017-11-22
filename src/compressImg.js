@@ -43,6 +43,7 @@
      *        
      */
     window.compress = function (fileList, getBlobList, quality, imgWidth) {
+		blobList = []; //初始化blobList
         // 判断参数fileList的长度是否大于0
         if (!fileList.length){
             console.log('警告：传进方法compress的参数fileList长度必须大于零！！！')
