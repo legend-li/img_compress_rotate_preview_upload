@@ -18,11 +18,12 @@
         var Orientation = '', //图片方向角
             blobList = [], //压缩后的二进制图片数据列表
 
-            canvas = document.createElement("canvas"), //用于压缩图片（纠正图片方向）的canvas
+            canvas = document.createElement("canvas"); //用于压缩图片（纠正图片方向）的canvas
             ctx = canvas.getContext('2d'),
 
+            file_type = 'image/jpeg', //图片类型
             qlty = 0.5, //图片压缩品质，默认是0.5，可选范围是0-1的数字类型的值，可配置
-            imgWH = 2000; //压缩后的图片的最大宽度和高度，默认是2000px，可配置
+            imgWH = 1000; //压缩后的图片的最大宽度和高度，默认是1000px，可配置
 
 
         /**
@@ -42,7 +43,7 @@
          * @param quality,传入函数的图片压缩比率(品质)，可选范围0-1的数字类型的值，默认是0.5
          *
          * @param WH,传入函数的图片压缩后的最大图片宽度和高度，默认是1000，单位是px，可自由配置。
-         *        注意：最好不要超过2000，数字过大，容易导致canvas压缩失败。由于没做切片处理，所以有这个限制。2000*2000的图片在前端中，基本也够用了。
+         *        注意：最好不要超过1000，数字过大，容易导致canvas压缩失败。由于没做瓦片处理，所以有这个限制。1000*1000的图片在前端中，基本也够用了。
          *        
          */
         function process (fileList, getBlobList, quality, WH) {
@@ -58,8 +59,9 @@
                 qlty = quality;
 
             //如果WH参数有值，则把WH赋值给imgWH（压缩后的图片的最大宽度和高度）
-            if(WH)
+            if(WH&&WH<1000&&WH>0){
                 imgWH = WH;
+            }
 
             // 把传进来的fileList转为数组类型
             var files = Array.prototype.slice.call(fileList);
@@ -69,6 +71,7 @@
                     console.log('警告：图片必须是jpeg||png类型！！！');
                     return;
                 }
+                // file_type = file.type;
                 
                 var reader = new FileReader();
 
@@ -190,7 +193,7 @@
 
             var ndata;
             
-            ndata = canvas.toDataURL('image/jpeg', qlty);
+            ndata = canvas.toDataURL(file_type, qlty);
             
             //打印压缩前后的大小，以及压缩比率
             // var initSize = img.src.length;
@@ -229,22 +232,27 @@
             //img的高度和宽度不能在img元素隐藏后获取，否则会出错    
             var height = img.height;    
             var width = img.width;
-            if(img.src.length/1024 < 100){
-                // console("当前图片小于100K，不需要压缩");
-            }else{
-                if(width>imgWH || height>imgWH){
-                    var ratio = ~~(height/width*10)/10;
-                    if(width>height){
-                        width = imgWH;
-                        height = imgWH*ratio;
-                    }else{
-                        height = imgWH;
-                        width = height/ratio;
-                    }
+
+            if(width>imgWH || height>imgWH){
+                var ratio = ~~(height/width*10)/10;
+                if(width>height){
+                    width = imgWH;
+                    height = imgWH*ratio;
+                }else{
+                    height = imgWH;
+                    width = height/ratio;
                 }
-                
+                img.width = width;
+                img.height = height;
             }
+
+            canvas.width = width;    
+            canvas.height = height;   
             
+            // 铺底色
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(0, 0, width, height);
+
             var step = 2;    
             if (step == null) {    
                 step = min_step;    
@@ -259,53 +267,26 @@
                 step--;    
                 step < min_step && (step = max_step);    
             }
+
             //旋转角度以弧度值为参数    
             var degree = step * 90 * Math.PI / 180; 
             
             switch (step) {
                 case 0:
-                    canvas.width = width;    
-                    canvas.height = height;   
-                    
-                    // 铺底色
-                    ctx.fillStyle = "#fff";
-                    ctx.fillRect(0, 0, width, height);
-                    
-                    ctx.drawImage(img, 0, 0,width,height);    
+                    ctx.drawImage(img, 0, 0,width,height);   
                     break;    
                 case 1:
-                    canvas.width = height;
-                    canvas.height = width;
-                    
-                    // 铺底色
-                    ctx.fillStyle = "#fff";
-                    ctx.fillRect(0, -height, width, height);
-                    
                     ctx.rotate(degree);    
                     ctx.drawImage(img, 0, -height,width,height);    
                     break;
                 case 2:
-                    canvas.width = width;    
-                    canvas.height = height;
-                    
-                    // 铺底色
-                    ctx.fillStyle = "#fff";
-                    ctx.fillRect(0, -height, width, height);
-                    
                     ctx.rotate(degree);    
                     ctx.drawImage(img, -width, -height,width,height);    
                     break;    
                 case 3:
-                    canvas.width = height;    
-                    canvas.height = width;    
-                    
-                    // 铺底色
-                    ctx.fillStyle = "#fff";
-                    ctx.fillRect(0, -height, width, height);
-                    
                     ctx.rotate(degree);    
                     ctx.drawImage(img, -width, 0,width,height);    
-                    break;    
+                    break;
             }
         }
 
