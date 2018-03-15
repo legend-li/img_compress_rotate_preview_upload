@@ -96,7 +96,8 @@
                             // alert(EXIF.pretty(this));
                             EXIF.getAllTags(this);   
                             // alert(EXIF.getTag(this, 'Orientation'));
-                            Orientation = EXIF.getTag(this, 'Orientation');  
+                            Orientation = EXIF.getTag(this, 'Orientation'); 
+							console.log('Orientation:', Orientation)
                             if(Orientation == ""||Orientation == undefined||Orientation == null){
                                 Orientation = 1;
                             }
@@ -133,63 +134,23 @@
          * @returns 返回的压缩后的二进制图片数据
          */
         function GetImgCompress(img){
-            if (navigator.userAgent.match(/iphone/i)) {
-                //console.log('iphone');
-                //如果方向角不为1，都需要进行旋转
-                if(Orientation != "" && Orientation != 1){
-                    switch(Orientation){
-                        case 6://需要顺时针（向左）90度旋转
-                            rotateImg(img,'left',canvas);
-                            break;
-                        case 8://需要逆时针（向右）90度旋转
-                            rotateImg(img,'right',canvas);  
-                            break;  
-                        case 3://需要180度旋转
-                            rotateImg(img,'right',canvas);//转两次  
-                            rotateImg(img,'right',canvas);
-                            break;  
-                    }
-                }else{
-                    //不做旋转
-                    rotateImg(img,'no',canvas); 
-                }
-            }else if (navigator.userAgent.match(/Android/i)) {// 修复android
-                if(Orientation != "" && Orientation != 1){
-                        switch(Orientation){
-                            case 6://需要顺时针（向左）90度旋转
-                                rotateImg(img,'left',canvas);
-                                break;
-                            case 8://需要逆时针（向右）90度旋转
-                                rotateImg(img,'right',canvas);
-                                break;
-                            case 3://需要180度旋转
-                                rotateImg(img,'right',canvas);//转两次
-                                rotateImg(img,'right',canvas);
-                                break;
-                        }
-                    }else{
-                        //不做旋转
-                        rotateImg(img,'no',canvas);  
-                    }
-            }else{
-                if(Orientation != "" && Orientation != 1){
-                    switch(Orientation){
-                        case 6://需要顺时针（向左）90度旋转
-                            rotateImg(img,'left',canvas);
-                            break;
-                        case 8://需要逆时针（向右）90度旋转
-                            rotateImg(img,'right',canvas);
-                            break;
-                        case 3://需要180度旋转
-                            rotateImg(img,'right',canvas);//转两次
-                            rotateImg(img,'right',canvas);
-                            break;
-                    }
-                }else{
-                    //不做旋转
-                    rotateImg(img,'no',canvas);
-                }
-            }
+			//如果方向角不为1，都需要进行旋转
+			if(Orientation != 1){
+				switch(Orientation){
+					case 6://需要顺时针90度旋转
+						rotateImg(img,'right',canvas);
+						break;
+					case 8://需要逆时针90度旋转
+						rotateImg(img,'left',canvas);
+						break;
+					case 3://需要180度旋转
+						rotateImg(img,'right2',canvas);//转两次
+						break;
+				}
+			}else{
+				//不做旋转
+				rotateImg(img,'no',canvas);
+			}
 
             var ndata;
             
@@ -246,46 +207,65 @@
                 img.height = height;
             }
 
-            canvas.width = width;    
-            canvas.height = height;   
-            
-            // 铺底色
-            ctx.fillStyle = "#fff";
-            ctx.fillRect(0, 0, width, height);
-
             var step = 2;    
             if (step == null) {    
                 step = min_step;    
             }
             if (direction == 'no'){
                 step = 0;    
-            } else if (direction == 'right') {    
+            } else if (direction == 'left') {    
                 step++;    
                 //旋转到原位置，即超过最大值    
                 step > max_step && (step = min_step);    
-            } else {    
-                step--;    
+            } else if (direction == 'right') {			
+				step--;    
                 step < min_step && (step = max_step);    
+			} else {    
+                //旋转180度
             }
 
             //旋转角度以弧度值为参数    
             var degree = step * 90 * Math.PI / 180; 
-            
+            console.log('degree:', degree, 'step:', step)
             switch (step) {
                 case 0:
-                    ctx.drawImage(img, 0, 0,width,height);   
+					canvas.width = width;    
+					canvas.height = height;   
+					
+					// 铺底色
+					ctx.fillStyle = "#fff";
+					ctx.fillRect(0, 0, width, height);
+                    ctx.drawImage(img, 0, 0, width, height);   
                     break;    
                 case 1:
+					canvas.width = height;    
+					canvas.height = width;   
+					
+					// 铺底色
+					ctx.fillStyle = "#fff";
+					ctx.fillRect(0, 0, height, width);
                     ctx.rotate(degree);    
-                    ctx.drawImage(img, 0, -height,width,height);    
+                    ctx.drawImage(img, 0, -height, width, height);    
                     break;
                 case 2:
+					canvas.width = width;    
+					canvas.height = height;   
+					
+					// 铺底色
+					ctx.fillStyle = "#fff";
+					ctx.fillRect(0, 0, width, height);
                     ctx.rotate(degree);    
-                    ctx.drawImage(img, -width, -height,width,height);    
+                    ctx.drawImage(img, -width, -height, width, height);    
                     break;    
                 case 3:
+					canvas.width = height;    
+					canvas.height = width;   
+					
+					// 铺底色
+					ctx.fillStyle = "#fff";
+					ctx.fillRect(0, 0, height, width);
                     ctx.rotate(degree);    
-                    ctx.drawImage(img, -width, 0,width,height);    
+                    ctx.drawImage(img, -width, 0, width, height);    
                     break;
             }
         }
