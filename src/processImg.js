@@ -18,7 +18,7 @@
         var Orientation = '', //图片方向角
             blobList = [], //压缩后的二进制图片数据列表
 
-            canvas = document.createElement("canvas"); //用于压缩图片（纠正图片方向）的canvas
+            canvas = document.createElement("canvas"), //用于压缩图片（纠正图片方向）的canvas
             ctx = canvas.getContext('2d'),
 
             file_type = 'image/jpeg', //图片类型
