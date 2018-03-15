@@ -226,46 +226,46 @@
 
             //旋转角度以弧度值为参数    
             var degree = step * 90 * Math.PI / 180; 
-            console.log('degree:', degree, 'step:', step)
+
             switch (step) {
                 case 0:
 					canvas.width = width;    
 					canvas.height = height;   
-					
+
 					// 铺底色
 					ctx.fillStyle = "#fff";
 					ctx.fillRect(0, 0, width, height);
-                    ctx.drawImage(img, 0, 0, width, height);   
+					ctx.drawImage(img, 0, 0, width, height);   
                     break;    
                 case 1:
 					canvas.width = height;    
 					canvas.height = width;   
-					
+
 					// 铺底色
 					ctx.fillStyle = "#fff";
 					ctx.fillRect(0, 0, height, width);
-                    ctx.rotate(degree);    
-                    ctx.drawImage(img, 0, -height, width, height);    
+					ctx.rotate(degree);    
+					ctx.drawImage(img, 0, -height, width, height);    
                     break;
                 case 2:
 					canvas.width = width;    
 					canvas.height = height;   
-					
+
 					// 铺底色
 					ctx.fillStyle = "#fff";
 					ctx.fillRect(0, 0, width, height);
-                    ctx.rotate(degree);    
-                    ctx.drawImage(img, -width, -height, width, height);    
+					ctx.rotate(degree);    
+					ctx.drawImage(img, -width, -height, width, height);    
                     break;    
                 case 3:
 					canvas.width = height;    
 					canvas.height = width;   
-					
+
 					// 铺底色
 					ctx.fillStyle = "#fff";
 					ctx.fillRect(0, 0, height, width);
-                    ctx.rotate(degree);    
-                    ctx.drawImage(img, -width, 0, width, height);    
+					ctx.rotate(degree);    
+					ctx.drawImage(img, -width, 0, width, height);    
                     break;
             }
         }
