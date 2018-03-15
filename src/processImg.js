@@ -134,23 +134,23 @@
          * @returns 返回的压缩后的二进制图片数据
          */
         function GetImgCompress(img){
-			//如果方向角不为1，都需要进行旋转
-			if(Orientation != 1){
-				switch(Orientation){
-					case 6://需要顺时针90度旋转
-						rotateImg(img,'right',canvas);
-						break;
-					case 8://需要逆时针90度旋转
-						rotateImg(img,'left',canvas);
-						break;
-					case 3://需要180度旋转
-						rotateImg(img,'right2',canvas);//转两次
-						break;
-				}
-			}else{
-				//不做旋转
-				rotateImg(img,'no',canvas);
-			}
+            //如果方向角不为1，都需要进行旋转
+            if(Orientation != 1){
+                switch(Orientation){
+                    case 6://需要顺时针90度旋转
+                        rotateImg(img,'right',canvas);
+                        break;
+                    case 8://需要逆时针90度旋转
+                        rotateImg(img,'left',canvas);
+                        break;
+                    case 3://需要180度旋转
+                        rotateImg(img,'right2',canvas);//转两次
+                        break;
+                }
+            }else{
+                //不做旋转
+                rotateImg(img,'no',canvas);
+            }
 
             var ndata;
             
@@ -229,43 +229,43 @@
 
             switch (step) {
                 case 0:
-					canvas.width = width;    
-					canvas.height = height;   
+                    canvas.width = width;    
+                    canvas.height = height;   
 
-					// 铺底色
-					ctx.fillStyle = "#fff";
-					ctx.fillRect(0, 0, width, height);
-					ctx.drawImage(img, 0, 0, width, height);   
+                    // 铺底色
+                    ctx.fillStyle = "#fff";
+                    ctx.fillRect(0, 0, width, height);
+                    ctx.drawImage(img, 0, 0, width, height);   
                     break;    
                 case 1:
-					canvas.width = height;    
-					canvas.height = width;   
+                    canvas.width = height;    
+                    canvas.height = width;   
 
-					// 铺底色
-					ctx.fillStyle = "#fff";
-					ctx.fillRect(0, 0, height, width);
-					ctx.rotate(degree);    
-					ctx.drawImage(img, 0, -height, width, height);    
+                    // 铺底色
+                    ctx.fillStyle = "#fff";
+                    ctx.fillRect(0, 0, height, width);
+                    ctx.rotate(degree);    
+                    ctx.drawImage(img, 0, -height, width, height);    
                     break;
                 case 2:
-					canvas.width = width;    
-					canvas.height = height;   
+                    canvas.width = width;    
+                    canvas.height = height;   
 
-					// 铺底色
-					ctx.fillStyle = "#fff";
-					ctx.fillRect(0, 0, width, height);
-					ctx.rotate(degree);    
-					ctx.drawImage(img, -width, -height, width, height);    
+                    // 铺底色
+                    ctx.fillStyle = "#fff";
+                    ctx.fillRect(0, 0, width, height);
+                    ctx.rotate(degree);    
+                    ctx.drawImage(img, -width, -height, width, height);    
                     break;    
                 case 3:
-					canvas.width = height;    
-					canvas.height = width;   
+                    canvas.width = height;    
+                    canvas.height = width;   
 
-					// 铺底色
-					ctx.fillStyle = "#fff";
-					ctx.fillRect(0, 0, height, width);
-					ctx.rotate(degree);    
-					ctx.drawImage(img, -width, 0, width, height);    
+                    // 铺底色
+                    ctx.fillStyle = "#fff";
+                    ctx.fillRect(0, 0, height, width);
+                    ctx.rotate(degree);    
+                    ctx.drawImage(img, -width, 0, width, height);    
                     break;
             }
         }
