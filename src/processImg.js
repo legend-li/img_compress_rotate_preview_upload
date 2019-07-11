@@ -195,7 +195,7 @@
             var width = img.width;
 
             if(width>imgWH || height>imgWH){
-                var ratio = ~~(height/width*10)/10;
+                var ratio = (height / width).toFixed(3);
                 if(width>height){
                     width = imgWH;
                     height = imgWH*ratio;
